@@ -34,6 +34,31 @@ docker compose up
 - [Open the application on port 8000](http://localhost:8000)
 - [Open the documentation on port 4000](http://localhost:4000/tracezilla-shopify-connector/)
 
+### Configure and reload `.env`
+
+The workbench reads credentials from the `.env` file in the repository root:
+
+```text
+tracezilla-integration-workbench/.env
+```
+
+If it does not exist yet, create it and generate the Laravel application key:
+
+```bash
+cp .env.example .env
+docker compose run --rm --no-deps app php artisan key:generate
+```
+
+After changing credentials or any other `.env` value, restart the application
+container so Laravel reloads the file:
+
+```bash
+docker compose restart app
+```
+
+Then refresh [http://localhost:8000](http://localhost:8000). The `.env` file is
+ignored by Git and must never be committed because it contains secrets.
+
 ## Manual Installation
 
 Prerequisites
