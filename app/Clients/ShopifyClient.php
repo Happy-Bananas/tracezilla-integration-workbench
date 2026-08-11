@@ -37,9 +37,9 @@ class ShopifyClient
      */
     protected PendingRequest $http;
 
-    public function __construct(?array $config = null)
+    public function __construct()
     {
-        $config ??= config('services.shopify', []);
+        $config = config('services.shopify', []);
 
         $this->shopUrl = $this->shopDomain(
             $this->requiredString($config, 'shop_url')

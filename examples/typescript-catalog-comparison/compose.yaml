@@ -1,0 +1,25 @@
+services:
+  catalog-comparison:
+    build:
+      context: .
+      target: runtime
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      SHOPIFY_SHOP_URL: ${SHOPIFY_SHOP_URL:-}
+      SHOPIFY_CLIENT_ID: ${SHOPIFY_CLIENT_ID:-}
+      SHOPIFY_CLIENT_SECRET: ${SHOPIFY_CLIENT_SECRET:-}
+      SHOPIFY_SCOPE: ${SHOPIFY_SCOPE:-read_products}
+      SHOPIFY_API_VERSION: ${SHOPIFY_API_VERSION:-2025-10}
+      TRACEZILLA_BASE_URL: ${TRACEZILLA_BASE_URL:-https://app.tracezilla.com}
+      TRACEZILLA_TEAM_SLUG: ${TRACEZILLA_TEAM_SLUG:-}
+      TRACEZILLA_API_KEY: ${TRACEZILLA_API_KEY:-}
+      CATALOG_PAGE_SIZE: ${CATALOG_PAGE_SIZE:-250}
+      CATALOG_MAX_PAGES: ${CATALOG_MAX_PAGES:-100}
+      HTTP_TIMEOUT_MS: ${HTTP_TIMEOUT_MS:-30000}
+
+  test:
+    build:
+      context: .
+      target: test

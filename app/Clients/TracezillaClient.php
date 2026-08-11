@@ -32,9 +32,9 @@ class TracezillaClient
      */
     protected PendingRequest $http;
 
-    public function __construct(?array $config = null)
+    public function __construct()
     {
-        $config ??= config('services.tracezilla', []);
+        $config = config('services.tracezilla', []);
 
         $this->baseUrl = rtrim(
             $this->requiredString($config, 'base_url'),

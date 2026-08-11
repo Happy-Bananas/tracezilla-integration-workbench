@@ -6,7 +6,7 @@
 
         <a href="{{ route('home') }}" class="flex items-center space-x-3">
             <span class="self-center text-2xl font-semibold whitespace-nowrap">
-                Tracezilla Integration Workbench
+                tracezilla Shopify Connector
             </span>
         </a>
 
@@ -45,7 +45,7 @@
                             {{ request()->routeIs('shopify.test')
                                 ? 'text-blue-700'
                                 : 'text-gray-900 hover:text-blue-700' }}">
-                        Shopify
+                        Shopify Test
                     </a>
                 </li>
 
@@ -57,13 +57,13 @@
                             {{ request()->routeIs('tracezilla.test')
                                 ? 'text-blue-700'
                                 : 'text-gray-900 hover:text-blue-700' }}">
-                        Tracezilla
+                        tracezilla Test
                     </a>
                 </li>
-
+                
                 <li>
                     <a
-                        href="https://github.com/Happy-Bananas/tracezilla-integration-workbench"
+                        href="https://github.com/Happy-bananas/tracezilla-shopify-connector"
                         target="_blank"
                         class="block py-2 px-3 md:p-0 text-gray-900 hover:text-blue-700">
                         Github
@@ -73,7 +73,7 @@
 
                 <li>
                     <a
-                        href="https://happy-bananas.github.io/tracezilla-integrations-docs/"
+                        href="https://happy-bananas.github.io/tracezilla-shopify-connector/"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="block py-2 px-3 md:p-0 text-gray-900 hover:text-blue-700">

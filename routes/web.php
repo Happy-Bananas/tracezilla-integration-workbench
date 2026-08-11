@@ -16,10 +16,6 @@ Route::post('/shopify/test', [ShopifyTestController::class, 'test'])
 
 Route::post('/shopify/list-products', [ShopifyTestController::class, 'listProducts'])
     ->name('shopify.products.run');
-Route::post('/shopify/list-locations', [ShopifyTestController::class, 'listLocations'])
-    ->name('shopify.locations.run');
-Route::delete('/shopify/credentials', [ShopifyTestController::class, 'forget'])
-    ->name('shopify.credentials.forget');
 
 Route::get('/tracezilla', [TracezillaTestController::class, 'show'])
     ->name('tracezilla.test');
@@ -28,7 +24,12 @@ Route::get('/tracezilla', [TracezillaTestController::class, 'show'])
 Route::post('/tracezilla/test', [TracezillaTestController::class, 'test'])
     ->name('tracezilla.test.run');
 
+// the belowe code should to away
+Route::post('/tracezilla/list-products', [TracezillaTestController::class, 'listProducts'])
+    ->name('tracezilla.products.run');
+
 Route::post('/tracezilla/list-skus', [TracezillaTestController::class, 'listSkus'])
     ->name('tracezilla.skus.run');
-Route::delete('/tracezilla/credentials', [TracezillaTestController::class, 'forget'])
-    ->name('tracezilla.credentials.forget');
+
+Route::post('/tracezilla/list-locations', [TracezillaTestController::class, 'listLocations'])
+    ->name('tracezilla.locations.run');

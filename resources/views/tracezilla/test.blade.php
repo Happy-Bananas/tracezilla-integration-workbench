@@ -1,31 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto p-6 space-y-6">
-    <div><h1 class="text-3xl font-bold">Tracezilla credential check</h1><p class="mt-2 text-gray-600">Validate API access and optionally retrieve a small read-only SKU sample.</p></div>
-    @if (session('status')) <div class="border border-green-200 bg-green-50 p-4 text-green-800">{{ session('status') }}</div> @endif
-    @if ($errors->any()) <div class="border border-red-200 bg-red-50 p-4 text-red-800"><strong>Check these fields:</strong><ul class="mt-2 list-disc pl-5">@foreach ($errors->all() as $message)<li>{{ $message }}</li>@endforeach</ul></div> @endif
-    @if ($error) <div class="border border-red-200 bg-red-50 p-4 text-red-800"><strong>Not validated:</strong> {{ $error }}</div> @endif
-    @if ($result) <div class="border border-green-200 bg-green-50 p-4 text-green-800"><strong>Success:</strong> {{ $result['message'] }}</div> @endif
+<div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">tracezilla Connection Test</h1>
 
-    <form method="POST" action="{{ route('tracezilla.test.run') }}" class="bg-white border p-6 grid md:grid-cols-2 gap-4">
-        @csrf
-        <label class="block md:col-span-2">Base URL<input type="url" name="base_url" value="{{ old('base_url', $saved['base_url'] ?? 'https://app.tracezilla.com') }}" required class="mt-1 w-full border rounded p-2"></label>
-        <label class="block">Team slug<input name="team_slug" value="{{ old('team_slug', $saved['team_slug'] ?? '') }}" required class="mt-1 w-full border rounded p-2"></label>
-        <label class="block">API key<input type="password" name="api_key" value="" placeholder="{{ $saved ? 'Enter again to revalidate' : '' }}" required autocomplete="new-password" class="mt-1 w-full border rounded p-2"></label>
-        <div class="md:col-span-2"><button class="bg-blue-700 text-white rounded px-4 py-2">Validate and keep for this session</button></div>
-    </form>
+    <div class="bg-white border p-6 mb-6 mt-4">
+        <h2 class="text-xl font-semibold mb-4">Configuration</h2>
 
-    @if ($saved)
-    <div class="border bg-white p-6">
-        <h2 class="text-xl font-semibold">Read-only checks</h2>
-        <p class="text-sm text-gray-600 mt-1">Credentials are in the encrypted session cookie and expire after 60 minutes.</p>
-        <div class="flex gap-3 mt-4">
-            <form method="POST" action="{{ route('tracezilla.skus.run') }}">@csrf<button class="border rounded px-4 py-2">List 10 SKUs</button></form>
-            <form method="POST" action="{{ route('tracezilla.credentials.forget') }}">@csrf @method('DELETE')<button class="border border-red-300 text-red-700 rounded px-4 py-2">Forget credentials</button></form>
-        </div>
+        <table class="w-auto">
+            <tbody>
+                <tr>
+                    <th class="text-left font-medium pr-6 py-1">Base URL</th>
+                    <td>{{ $config['base_url'] ?: 'Missing' }}</td>
+                </tr>
+
+                <tr>
+                    <th class="text-left font-medium pr-6 py-1">Team Slug</th>
+                    <td>{{ $config['team_slug'] ?: 'Missing' }}</td>
+                </tr>
+
+                <tr>
+                    <th class="text-left font-medium pr-6 py-1">API Key</th>
+                    <td>{{ $config['api_key'] ? '✅ Configured' : '❌ Missing' }}</td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
+
+    <div class="my-8 flex gap-4">
+
+        <form method="POST" action="{{ route('tracezilla.test.run') }}">
+            @csrf
+            <button
+                type="submit"
+                class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                Test Tracezilla Connection
+            </button>
+        </form>
+
+        <form method="POST" action="{{ route('tracezilla.skus.run') }}">
+            @csrf
+            <button
+                type="submit"
+                class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                List 10 SKUs
+            </button>
+        </form>
+
+    </div>
+
+    @if ($result)
+        <div class="mt-4 bg-green-50 border border-green-200 text-green-800 p-4">
+            <strong>Success:</strong> {{ $result['message'] }}
+        </div>
+
+        <pre
+            style="max-height: 24rem; overflow: auto;"
+            class="text-xs mt-4 bg-gray-900 text-gray-100 p-4 rounded"
+>{{ json_encode($result, JSON_PRETTY_PRINT) }}</pre>
     @endif
-    @if (isset($result['response'])) <pre class="max-h-96 overflow-auto rounded bg-gray-900 p-4 text-xs text-gray-100">{{ json_encode($result['response'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre> @endif
+
+    @if ($error)
+        <div class="mt-4 bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
+            <strong>Error:</strong> {{ $error }}
+        </div>
+    @endif
+
 </div>
+
+
+
 @endsection

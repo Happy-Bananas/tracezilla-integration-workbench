@@ -1,12 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "tracezilla/integration-workbench",
+    "name": "tracezilla/tracezilla-shopify-connector",
     "type": "project",
-    "description": "Local consultant workbench for tracezilla integrations.",
+    "description": "Synchronize Shopify catalogs with tracezilla.",
     "keywords": [
         "tracezilla",
+        "shopify",
         "integration",
-        "workbench"
+        "catalog"
     ],
     "license": "MIT",
     "require": {

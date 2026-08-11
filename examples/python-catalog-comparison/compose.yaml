@@ -1,0 +1,10 @@
+services:
+  catalog-comparison:
+    build: .
+    env_file:
+      - .env
+    command: ["python", "-m", "src.cli"]
+
+  test:
+    build: .
+    command: ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
