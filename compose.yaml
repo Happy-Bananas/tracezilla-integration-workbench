@@ -1,0 +1,30 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    working_dir: /app
+    environment:
+      APP_NAME: tracezilla Integration Workbench
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      LOG_CHANNEL: stderr
+      CACHE_STORE: array
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: cookie
+      SESSION_ENCRYPT: "true"
+      SESSION_LIFETIME: 60
+    volumes:
+      - .:/app
+      - vendor:/app/vendor
+      - node_modules:/app/node_modules
+      - public_build:/app/public/build
+    ports:
+      - "8000:8000"
+    command: sh -c "grep -q '^APP_KEY=base64:' .env 2>/dev/null || (cp .env.example .env && php artisan key:generate --force); test -f public/build/manifest.json || npm run build; php artisan serve --host=0.0.0.0 --port=8000"
+
+volumes:
+  vendor:
+  node_modules:
+  public_build:
