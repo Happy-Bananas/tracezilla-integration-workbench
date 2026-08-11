@@ -80,6 +80,11 @@ class ShopifyTestController extends Controller
 
     private function credentials(Request $request): array
     {
+        $request->merge([
+            'shop_url' => $this->normalizeShopDomain((string) $request->input('shop_url')),
+            'scope' => preg_replace('/\s+/', '', (string) $request->input('scope')),
+        ]);
+
         $validated = $request->validate([
             'shop_url' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9][a-z0-9-]*\\.myshopify\\.com$/i'],
             'client_id' => ['required', 'string', 'max:255'],
@@ -89,6 +94,14 @@ class ShopifyTestController extends Controller
         ]);
 
         return $validated + ['timeout' => 30, 'connect_timeout' => 10];
+    }
+
+    private function normalizeShopDomain(string $value): string
+    {
+        $value = trim($value);
+        $value = preg_replace('#^https?://#i', '', $value);
+
+        return strtolower(explode('/', $value, 2)[0]);
     }
 
     private function page(Request $request, ?array $result = null, ?string $error = null, array $data = [])

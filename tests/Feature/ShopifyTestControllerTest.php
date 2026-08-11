@@ -30,6 +30,34 @@ class ShopifyTestControllerTest extends TestCase
             ->assertHeader('Cache-Control', 'no-store, private');
     }
 
+    public function test_it_normalizes_a_pasted_shopify_admin_url(): void
+    {
+        Http::fake([
+            'https://test-shop.myshopify.com/admin/oauth/access_token' => Http::response(['access_token' => 'private-token']),
+            '*/graphql.json' => Http::response(['data' => ['shop' => ['name' => 'Banana Shop']]], 200, ['X-Shopify-API-Version' => '2026-07']),
+        ]);
+
+        $response = $this->post('/shopify/test', array_merge($this->credentials, [
+            'shop_url' => 'https://TEST-SHOP.myshopify.com/admin/settings/apps',
+            'scope' => 'read_products, read_locations',
+        ]));
+
+        $response->assertOk()
+            ->assertSessionHas('workbench.shopify.shop_url', 'test-shop.myshopify.com')
+            ->assertSessionHas('workbench.shopify.scope', 'read_products,read_locations');
+    }
+
+    public function test_it_shows_the_specific_validation_error(): void
+    {
+        $response = $this->from('/shopify')->post('/shopify/test', array_merge($this->credentials, [
+            'shop_url' => 'not-a-shop-domain.example',
+        ]));
+
+        $response->assertRedirect('/shopify')
+            ->assertSessionHasErrors('shop_url');
+
+    }
+
     public function test_saved_credentials_enable_read_only_product_check(): void
     {
         Http::fake([

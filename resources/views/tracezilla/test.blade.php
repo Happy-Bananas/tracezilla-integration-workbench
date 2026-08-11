@@ -4,7 +4,7 @@
 <div class="max-w-4xl mx-auto p-6 space-y-6">
     <div><h1 class="text-3xl font-bold">Tracezilla credential check</h1><p class="mt-2 text-gray-600">Validate API access and optionally retrieve a small read-only SKU sample.</p></div>
     @if (session('status')) <div class="border border-green-200 bg-green-50 p-4 text-green-800">{{ session('status') }}</div> @endif
-    @if ($errors->any()) <div class="border border-red-200 bg-red-50 p-4 text-red-800">Check the credential fields and try again.</div> @endif
+    @if ($errors->any()) <div class="border border-red-200 bg-red-50 p-4 text-red-800"><strong>Check these fields:</strong><ul class="mt-2 list-disc pl-5">@foreach ($errors->all() as $message)<li>{{ $message }}</li>@endforeach</ul></div> @endif
     @if ($error) <div class="border border-red-200 bg-red-50 p-4 text-red-800"><strong>Not validated:</strong> {{ $error }}</div> @endif
     @if ($result) <div class="border border-green-200 bg-green-50 p-4 text-green-800"><strong>Success:</strong> {{ $result['message'] }}</div> @endif
 

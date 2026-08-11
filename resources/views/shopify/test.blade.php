@@ -8,26 +8,31 @@
     </div>
 
     @if (session('status')) <div class="border border-green-200 bg-green-50 p-4 text-green-800">{{ session('status') }}</div> @endif
-    @if ($errors->any()) <div class="border border-red-200 bg-red-50 p-4 text-red-800">Check the highlighted credential fields and try again.</div> @endif
+    @if ($errors->any()) <div class="border border-red-200 bg-red-50 p-4 text-red-800"><strong>Check these fields:</strong><ul class="mt-2 list-disc pl-5">@foreach ($errors->all() as $message)<li>{{ $message }}</li>@endforeach</ul></div> @endif
     @if ($error) <div class="border border-red-200 bg-red-50 p-4 text-red-800"><strong>Not validated:</strong> {{ $error }}</div> @endif
     @if ($result) <div class="border border-green-200 bg-green-50 p-4 text-green-800"><strong>Success:</strong> {{ $result['message'] }}@if($result['shop'] ?? null) Shop: {{ $result['shop'] }}.@endif</div> @endif
 
     <form method="POST" action="{{ route('shopify.test.run') }}" class="bg-white border p-6 grid md:grid-cols-2 gap-4">
         @csrf
         <label class="block md:col-span-2">Shop domain
-            <input name="shop_url" value="{{ old('shop_url', $saved['shop_url'] ?? '') }}" placeholder="your-store.myshopify.com" required class="mt-1 w-full border rounded p-2">
+            <input name="shop_url" value="{{ old('shop_url', $saved['shop_url'] ?? '') }}" placeholder="your-store.myshopify.com" required class="mt-1 w-full rounded p-2 border {{ $errors->has('shop_url') ? 'border-red-500' : '' }}">
+            @error('shop_url')<span class="block mt-1 text-sm text-red-700">{{ $message }}</span>@enderror
         </label>
         <label class="block">Client ID
-            <input name="client_id" value="{{ old('client_id', $saved['client_id'] ?? '') }}" required autocomplete="off" class="mt-1 w-full border rounded p-2">
+            <input name="client_id" value="{{ old('client_id', $saved['client_id'] ?? '') }}" required autocomplete="off" class="mt-1 w-full rounded p-2 border {{ $errors->has('client_id') ? 'border-red-500' : '' }}">
+            @error('client_id')<span class="block mt-1 text-sm text-red-700">{{ $message }}</span>@enderror
         </label>
         <label class="block">Client secret
-            <input type="password" name="client_secret" value="" placeholder="{{ $saved ? 'Enter again to revalidate' : '' }}" required autocomplete="new-password" class="mt-1 w-full border rounded p-2">
+            <input type="password" name="client_secret" value="" placeholder="{{ $saved ? 'Enter again to revalidate' : '' }}" required autocomplete="new-password" class="mt-1 w-full rounded p-2 border {{ $errors->has('client_secret') ? 'border-red-500' : '' }}">
+            @error('client_secret')<span class="block mt-1 text-sm text-red-700">{{ $message }}</span>@enderror
         </label>
         <label class="block md:col-span-2">Scopes
-            <input name="scope" value="{{ old('scope', $saved['scope'] ?? 'read_products,read_locations,read_inventory') }}" required class="mt-1 w-full border rounded p-2">
+            <input name="scope" value="{{ old('scope', $saved['scope'] ?? 'read_products,read_locations,read_inventory') }}" required class="mt-1 w-full rounded p-2 border {{ $errors->has('scope') ? 'border-red-500' : '' }}">
+            @error('scope')<span class="block mt-1 text-sm text-red-700">{{ $message }}</span>@enderror
         </label>
         <label class="block">API version
-            <input name="api_version" value="{{ old('api_version', $saved['api_version'] ?? '2026-07') }}" required class="mt-1 w-full border rounded p-2">
+            <input name="api_version" value="{{ old('api_version', $saved['api_version'] ?? '2026-07') }}" required class="mt-1 w-full rounded p-2 border {{ $errors->has('api_version') ? 'border-red-500' : '' }}">
+            @error('api_version')<span class="block mt-1 text-sm text-red-700">{{ $message }}</span>@enderror
         </label>
         <div class="md:col-span-2"><button class="bg-blue-700 text-white rounded px-4 py-2">Validate and keep for this session</button></div>
     </form>
