@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ShopifyTestController;
 use App\Http\Controllers\TracezillaTestController;
+use App\Http\Controllers\TracezillaSkuImportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,3 +34,9 @@ Route::post('/tracezilla/list-skus', [TracezillaTestController::class, 'listSkus
 
 Route::post('/tracezilla/list-locations', [TracezillaTestController::class, 'listLocations'])
     ->name('tracezilla.locations.run');
+
+Route::get('/tracezilla/import-shopify-skus', [TracezillaSkuImportController::class, 'show'])
+    ->name('tracezilla.sku-import');
+
+Route::post('/tracezilla/import-shopify-skus', [TracezillaSkuImportController::class, 'run'])
+    ->name('tracezilla.sku-import.run');

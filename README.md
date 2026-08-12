@@ -59,6 +59,16 @@ docker compose restart app
 Then refresh [http://localhost:8000](http://localhost:8000). The `.env` file is
 ignored by Git and must never be committed because it contains secrets.
 
+### Import Shopify SKUs into Tracezilla
+
+Open the Tracezilla connection page and select **Import Shopify SKUs into
+Tracezilla**. The import page checks that both API configurations are present.
+It starts in dry-run mode and shows the synchronization result in the browser.
+
+Disabling dry run requires an explicit confirmation because the operation can
+create missing SKUs in the configured Tracezilla team. Review the demonstration
+unit, weight, and conversion mapping before executing an import.
+
 ## Manual Installation
 
 Prerequisites

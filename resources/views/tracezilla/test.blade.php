@@ -50,6 +50,13 @@
 
     </div>
 
+    <div class="my-8 border-t pt-6">
+        <a href="{{ route('tracezilla.sku-import') }}"
+           class="inline-block text-white bg-brand hover:bg-brand-strong font-medium rounded-base text-sm px-4 py-2.5">
+            Import Shopify SKUs into Tracezilla
+        </a>
+    </div>
+
     @if ($result)
         <div class="mt-4 bg-green-50 border border-green-200 text-green-800 p-4">
             <strong>Success:</strong> {{ $result['message'] }}
