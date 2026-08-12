@@ -39,7 +39,8 @@ class TracezillaSkuImportControllerTest extends TestCase
 
         $this->get('/tracezilla/import-shopify-skus')
             ->assertOk()
-            ->assertSee('name="dry_run" value="1" checked', false);
+            ->assertSee('name="dry_run" value="1" checked', false)
+            ->assertSee('name="limit" min="1" value="10"', false);
     }
 
     public function test_confirmation_dialog_has_ok_and_cancel_controls(): void

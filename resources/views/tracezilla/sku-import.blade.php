@@ -33,14 +33,16 @@
             <input id="dry-run" type="checkbox" name="dry_run" value="1" {{ old('dry_run', '1') ? 'checked' : '' }} {{ $configuration['ready'] ? '' : 'disabled' }}>
             <span><strong>Dry run</strong> — show what would happen without updating Tracezilla</span>
         </label>
-        <label class="block mb-5">Maximum Shopify variants (optional)
-            <input type="number" name="limit" min="1" value="{{ old('limit') }}" class="mt-1 block w-40 border rounded p-2" {{ $configuration['ready'] ? '' : 'disabled' }}>
-        </label>
         <input id="confirm-write" type="hidden" name="confirm_write" value="">
-        <button type="submit" {{ $configuration['ready'] ? '' : 'disabled' }}
-            class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong disabled:bg-gray-400 disabled:cursor-not-allowed font-medium rounded-base text-sm px-4 py-2.5">
-            Run SKU import
-        </button>
+        <div class="flex flex-col sm:flex-row sm:items-end gap-4">
+            <label class="block">Maximum Shopify variants (optional)
+                <input type="number" name="limit" min="1" value="{{ old('limit', 10) }}" class="mt-1 block w-40 border rounded p-2" {{ $configuration['ready'] ? '' : 'disabled' }}>
+            </label>
+            <button type="submit" {{ $configuration['ready'] ? '' : 'disabled' }}
+                class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong disabled:bg-gray-400 disabled:cursor-not-allowed font-medium rounded-base text-sm px-4 py-2.5">
+                Run SKU import
+            </button>
+        </div>
     </form>
 
     @if ($result)
