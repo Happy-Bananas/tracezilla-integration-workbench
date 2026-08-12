@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class TracezillaSkuImportControllerTest extends TestCase
@@ -39,6 +40,40 @@ class TracezillaSkuImportControllerTest extends TestCase
         $this->get('/tracezilla/import-shopify-skus')
             ->assertOk()
             ->assertSee('name="dry_run" value="1" checked', false);
+    }
+
+    public function test_dry_run_accepts_an_empty_write_confirmation(): void
+    {
+        $this->configureServices();
+        Http::preventStrayRequests();
+        Http::fake([
+            'https://shop.myshopify.com/admin/oauth/access_token' => Http::response([
+                'access_token' => 'shopify-token',
+            ]),
+            'https://shop.myshopify.com/admin/api/2025-10/graphql.json' => Http::response([
+                'data' => [
+                    'productVariants' => [
+                        'nodes' => [],
+                        'pageInfo' => ['hasNextPage' => false, 'endCursor' => null],
+                    ],
+                ],
+            ]),
+            'https://tracezilla.test/api/v1/team/skus*' => Http::response([
+                'data' => [],
+                'links' => ['next_page' => null],
+            ]),
+        ]);
+
+        $response = $this->post('/tracezilla/import-shopify-skus', [
+            'dry_run' => '1',
+            'confirm_write' => '',
+        ]);
+
+        $response->assertOk()
+            ->assertSee('Dry run completed.')
+            ->assertDontSee('The selected confirm write is invalid.');
+
+        Http::assertSentCount(3);
     }
 
     private function configureServices(): void

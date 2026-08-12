@@ -26,7 +26,7 @@ class TracezillaSkuImportController extends Controller
 
         $validated = $request->validate([
             'dry_run' => ['sometimes', 'accepted'],
-            'confirm_write' => ['sometimes', 'in:yes'],
+            'confirm_write' => ['nullable', 'in:yes'],
             'limit' => ['nullable', 'integer', 'min:1'],
         ]);
         $dryRun = $request->boolean('dry_run');
