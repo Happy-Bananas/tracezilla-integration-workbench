@@ -52,13 +52,13 @@
     @endif
 </div>
 
-<dialog id="write-confirmation" class="rounded border p-0 shadow-xl backdrop:bg-black/40">
+<dialog id="write-confirmation" class="fixed inset-0 m-auto rounded border p-0 shadow-xl backdrop:bg-black/40">
     <div class="max-w-lg p-6">
         <h2 class="text-xl font-semibold">Update the Tracezilla database?</h2>
         <p class="mt-3 text-gray-700">Dry run is disabled. Continuing can create missing SKUs in the configured Tracezilla team.</p>
         <div class="mt-6 flex justify-end gap-3">
             <button id="cancel-write" type="button" class="border rounded px-4 py-2">Cancel</button>
-            <button id="approve-write" type="button" class="bg-red-700 text-white rounded px-4 py-2">Yes, update Tracezilla</button>
+            <button id="approve-write" type="button" class="bg-red-700 text-white rounded px-4 py-2">OK</button>
         </div>
     </div>
 </dialog>
@@ -74,10 +74,7 @@
         confirmation.showModal();
     }
 
-    dryRun?.addEventListener('change', () => {
-        if (!dryRun.checked) requestWriteConfirmation();
-        else confirmed.value = '';
-    });
+    dryRun?.addEventListener('change', () => confirmed.value = '');
     form?.addEventListener('submit', event => {
         if (!dryRun.checked && confirmed.value !== 'yes') {
             event.preventDefault();
@@ -85,13 +82,13 @@
         }
     });
     document.getElementById('cancel-write')?.addEventListener('click', () => {
-        dryRun.checked = true;
         confirmed.value = '';
         confirmation.close();
     });
     document.getElementById('approve-write')?.addEventListener('click', () => {
         confirmed.value = 'yes';
         confirmation.close();
+        form.requestSubmit();
     });
 </script>
 @endsection

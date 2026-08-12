@@ -42,6 +42,19 @@ class TracezillaSkuImportControllerTest extends TestCase
             ->assertSee('name="dry_run" value="1" checked', false);
     }
 
+    public function test_confirmation_dialog_has_ok_and_cancel_controls(): void
+    {
+        $this->configureServices();
+
+        $this->get('/tracezilla/import-shopify-skus')
+            ->assertOk()
+            ->assertSee('id="write-confirmation"', false)
+            ->assertSee('fixed inset-0 m-auto', false)
+            ->assertSee('>Cancel</button>', false)
+            ->assertSee('>OK</button>', false)
+            ->assertSee("form.requestSubmit()", false);
+    }
+
     public function test_dry_run_accepts_an_empty_write_confirmation(): void
     {
         $this->configureServices();
