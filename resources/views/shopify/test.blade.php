@@ -59,6 +59,13 @@
 
 </div>
 
+    <div class="my-8 border-t pt-6">
+        <a href="{{ route('shopify.locations') }}"
+           class="inline-block text-white bg-brand hover:bg-brand-strong font-medium rounded-base text-sm px-4 py-2.5">
+            List Shopify Locations
+        </a>
+    </div>
+
     @if($products)
         <div class="mt-8">
             <h2 class="text-lg font-semibold mb-4">

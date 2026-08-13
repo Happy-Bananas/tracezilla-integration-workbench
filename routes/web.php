@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ShopifyTestController;
+use App\Http\Controllers\ShopifyLocationsController;
 use App\Http\Controllers\TracezillaTestController;
 use App\Http\Controllers\TracezillaSkuImportController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,12 @@ Route::post('/shopify/test', [ShopifyTestController::class, 'test'])
 
 Route::post('/shopify/list-products', [ShopifyTestController::class, 'listProducts'])
     ->name('shopify.products.run');
+
+Route::get('/shopify/locations', [ShopifyLocationsController::class, 'show'])
+    ->name('shopify.locations');
+
+Route::post('/shopify/locations', [ShopifyLocationsController::class, 'run'])
+    ->name('shopify.locations.run');
 
 Route::get('/tracezilla', [TracezillaTestController::class, 'show'])
     ->name('tracezilla.test');
