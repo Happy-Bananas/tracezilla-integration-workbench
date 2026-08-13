@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ShopifyTestController;
+use App\Http\Controllers\ShopifyInventorySyncController;
 use App\Http\Controllers\ShopifyLocationsController;
-use App\Http\Controllers\TracezillaTestController;
+use App\Http\Controllers\ShopifyTestController;
 use App\Http\Controllers\TracezillaSkuImportController;
+use App\Http\Controllers\TracezillaTestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,9 +26,14 @@ Route::get('/shopify/locations', [ShopifyLocationsController::class, 'show'])
 Route::post('/shopify/locations', [ShopifyLocationsController::class, 'run'])
     ->name('shopify.locations.run');
 
+Route::get('/shopify/inventory-from-tracezilla', [ShopifyInventorySyncController::class, 'show'])
+    ->name('shopify.inventory-sync');
+
+Route::post('/shopify/inventory-from-tracezilla', [ShopifyInventorySyncController::class, 'run'])
+    ->name('shopify.inventory-sync.run');
+
 Route::get('/tracezilla', [TracezillaTestController::class, 'show'])
     ->name('tracezilla.test');
-
 
 Route::post('/tracezilla/test', [TracezillaTestController::class, 'test'])
     ->name('tracezilla.test.run');

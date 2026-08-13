@@ -64,6 +64,10 @@
            class="inline-block text-white bg-brand hover:bg-brand-strong font-medium rounded-base text-sm px-4 py-2.5">
             List Shopify Locations
         </a>
+        <a href="{{ route('shopify.inventory-sync') }}"
+           class="inline-block ml-3 text-white bg-brand hover:bg-brand-strong font-medium rounded-base text-sm px-4 py-2.5">
+            Synchronize Inventory from Tracezilla
+        </a>
     </div>
 
     @if($products)
